@@ -1,0 +1,7 @@
+This repository contains various code and scripts to help test and debug our forest network.
+
+PsuedoSensor.ino is a C++ file that's meant to run on a ESP8266. All it does is connect to a network then push data to a Raspberry Pi via the HTTP API that it exposes.
+
+SensorEmulatorSkeleton.py is a python file written by Jeremy that also connects to a network and pushes data to the Raspberry Pi. However, it has a one-line edit by me to get it working with the HTTP API that the Raspberry Pi has.
+
+Both of these files are barebones and require further additions to the code to have them send data that's more significant than just random or incremented numbers. However, they should work as-is if the intent is just to test our existing solutions.
