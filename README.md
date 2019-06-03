@@ -1,5 +1,5 @@
 
-# Black Forest Demo Sensor Code
+# Black Rock Forest Demo Sensor Code
 
 This repository contains various code and scripts to help test and debug our forest network and store-forward API. Most, if not all the code here is barebones and require further additions to have it send data that's more significant than just random or incremented numbers. However, they should work as-is if the intent is just to test our existing solutions.
 
