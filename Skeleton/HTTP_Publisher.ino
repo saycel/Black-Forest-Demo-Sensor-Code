@@ -1,7 +1,7 @@
 /*
-	File Name: PsuedoSensor.ino
+	File Name: HTTP_Publisher.ino
 	Author: Gilberto Romero
-	Date: 5/29/19
+	Date: 6/4/19
 	Description: 
 		This file contains the bare minimum code required to connect
 		an ESP8266-compatible device to a Raspberry Pi running the 
@@ -28,11 +28,17 @@ const String NET_ID = "NETWORK_ID";
 const String DEV_ID = "DEVICE_ID";
 
 // Define your inputs for sensor data.
-const int DIGITAL_SENSORS[] = {D0, D1};
-const int ANALOG_SENSORS[] = {A0};
+const int DIGITAL_SENSOR_0 = D0;
+const int DIGITAL_SENSOR_1 = D1;
+
+const int ANALOG_SENSOR_0 = A0;
+
+// Put inputs into a list for easy traversal.
+const int DIGITAL_SENSORS[] = {DIGITAL_SENSOR_0, DIGITAL_SENSOR_1};
+const int ANALOG_SENSORS[] = {ANALOG_SENSOR_0};
 
 // Define the frequency at which data is sent to the server (in milliseconds).
-const int FREQUENCY = 1000;
+const int PUSH_FREQUENCY = 1000;
 
 // Base URL used for all calls to the API method.
 const String URL = "http://" + SERVER + ":" + PORT + "/sensor/collector/" + APP_KEY + "/" + NET_ID + "/" + DEV_ID + "/?ch";
@@ -85,10 +91,25 @@ void loop()
 {
 	// Read and send the state of all digital sensors.
 	for (int i = 0; i < LENGTH_OF(DIGITAL_SENSORS); i++)
-	{
-		const int DIGITAL_IN = digitalRead(DIGITAL_SENSORS[i]);
-		Serial.printf("Digital[%02d]  Channel[%02d]  State: %d\t", DIGITAL_SENSORS[i], i, DIGITAL_IN);
-		send(DIGITAL_IN, i);
+	{	
+		const int CHANNEL = i;
+		const int SENSOR_ID = DIGITAL_SENSORS[i];
+
+		int sensorValue = digitalRead(SENSOR_ID);
+
+		Serial.printf("Digital[%02d]  Channel[%02d]  State: %d\t", SENSOR_ID, CHANNEL, sensorValue);
+		
+		if (SENSOR_ID == DIGITAL_SENSOR_0)
+		{
+			// Code to modify sensor data before sending goes here.
+			sensorValue *= 2;
+			send(sensorValue, CHANNEL);
+		}
+		else
+		{
+			// Send the raw value that the sensor gives.
+			send(sensorValue, CHANNEL);
+		}
 	}
 
 	const int CHANNEL_OFFSET = LENGTH_OF(DIGITAL_SENSORS);
@@ -96,11 +117,25 @@ void loop()
 	// Read and send the state of all analog sensors.
 	for (int i = 0; i < LENGTH_OF(ANALOG_SENSORS); i++)
 	{
-		const int ANALOG_IN = analogRead(ANALOG_SENSORS[i]);
 		const int CHANNEL = CHANNEL_OFFSET + i;
-		Serial.printf("Analog [%02d]  Channel[%02d]  State: %d\t", ANALOG_SENSORS[i], CHANNEL, ANALOG_IN);
-		send(ANALOG_IN, CHANNEL);
+		const int SENSOR_ID = ANALOG_SENSORS[i];
+
+		int sensorValue = analogRead(SENSOR_ID);
+
+		Serial.printf("Analog [%02d]  Channel[%02d]  State: %d\t", SENSOR_ID, CHANNEL, sensorValue);
+
+		if (SENSOR_ID == ANALOG_SENSOR_0)
+		{
+			// Code to modify sensor data before sending goes here.
+			sensorValue *= 2;
+			send(sensorValue, CHANNEL);
+		}
+		else
+		{
+			// Send the raw value that the sensor gives.
+			send(sensorValue, CHANNEL);
+		}
 	}
 
-	delay(FREQUENCY);
+	delay(PUSH_FREQUENCY);
 }
