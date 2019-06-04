@@ -1,5 +1,5 @@
 
-# Black Forest Demo Sensor Code
+# Black Rock Forest Demo Sensor Code
 
 This repository contains various code and scripts to help test and debug our forest network and [store-forward API](https://github.com/saycel/black-rock-forest-store-and-forward). As the directory name suggests, code found in the [Skeleton](https://github.com/saycel/Black-Rock-Forest-Demo-Sensor-Code/tree/master/Skeleton) folder is barebones, requiring further additions to have it send data that's more significant than just random or incremented numbers. Code found in the [Example](https://github.com/saycel/Black-Rock-Forest-Demo-Sensor-Code/tree/master/Example)  folder however makes use of the skeleton code to show how it can be used effectively. However, all programs here should work "as-is" if the intent is just to test them and/or our existing solutions.
 
