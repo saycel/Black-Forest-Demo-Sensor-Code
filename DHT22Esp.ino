@@ -12,9 +12,9 @@
 //DHT dht(DHTPIN, DHTTYPE);
 DHTesp dht;
 
-const char* ssid = "NETWORK_SSID";                   //Nombre de la RED
-const char* password = "NETWORK_PASSWORD";           //Password de la RED
-const char* mqtt_server = "157.230.15.139";   //Dirección servidor
+const char* ssid = "NETWORK_SSID";                   //Name of Network 
+const char* password = "NETWORK_PASSWORD";           //Password for Network
+const char* mqtt_server = "157.230.15.139";   // Store and Forward IP address (RPi or Central Server)
 
 WiFiClient espClient;
 PubSubClient client(espClient);
